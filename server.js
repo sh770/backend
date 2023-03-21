@@ -12,11 +12,11 @@ app.get('/api/products/:slug', (req, res) => {
     if (product) {
         res.send(product);
     } else {
-        res.status(404).send({ message: 'Product Not Found' });
+        res.status(404).send({ message: 'המוצר לא נמצא' });
     }
 });
 
-const port = process.env.PORT || 500;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     console.log(`server running on http://localhost:${port}`);
