@@ -1,50 +1,50 @@
 [
     {
-      "name": "Nike Slim shirt",
+      "name": "חולצת נייקי סלים",
       "slug":"nike-slim-shirt",
-      "category": "Shirts",
+      "category": "חולצות",
       "image": "/images/p1.jpg",
       "price": 120,
-      "countInStock": 0,
-      "brand": "Nike",
+      "countInStock": 10,
+      "brand": "נייק",
       "rating": 4.5,
       "numReviews": 10,
-      "description":"a high quality nike shirt"
+      "description":"חולצת נייק באיכות גבוהה"
     },
     {
-        "name": "Adidas Fit Shirt",
+        "name": "חולצת כושר של אדידס",
         "slug":"adidas-fit-shirt",
-        "category": "Shirts",
+        "category": "חולצות",
         "image": "/images/p2.jpg",
         "price": 250,
         "countInStock": 20,
-        "brand": "Adidas",
+        "brand": "אדידס",
         "rating": 4.0,
         "numReviews": 10,
-        "description":"a high quality adidas shirt"
+        "description":"חולצת אדידס באיכות גבוהה"
       },
       {
-        "name": "Nike Slim Pants",
+        "name": "מכנסי נייקי סלים",
         "slug":"nike-slim-pants",
-        "category": "Pants",
+        "category": "מכנסיים",
         "image": "/images/p3.jpg",
         "price": 25,
         "countInStock": 15,
-        "brand": "Nike",
+        "brand": "נייקי",
         "rating": 4.5,
         "numReviews": 14,
-        "description":"a high quality nike pants"
+        "description":"מכנסי נייק באיכות גבוהה"
       },
       {
-        "name": "Adidas Fit Pants",
+        "name": "מכנסי כושר אדידס",
         "slug":"adidas-fit-pants",
-        "category": "Pants",
+        "category": "מכנסיים",
         "image": "/images/p4.jpg",
         "price": 65,
         "countInStock": 5,
-        "brand": "Adidas",
+        "brand": "אדידס",
         "rating": 4.5,
         "numReviews": 10,
-        "description":"a high quality adidas pant"
+        "description":"מכנס אדידס באיכות גבוהה"
       }
   ]
