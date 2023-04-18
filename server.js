@@ -35,7 +35,6 @@ app.use((err, req, res, next)=>{
 
 
 
-
 // app.get('/api/products', (req, res) => {
 //         res.send(data.products); 
 // });
