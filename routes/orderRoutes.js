@@ -1,6 +1,6 @@
 import express from "express";
 import Order from "../models/orderModel.js";
-import { generateToken, isAuth } from "../utilis.js";
+import { isAuth } from "../utilis.js";
 
 const orderRouter = express.Router();
 
@@ -56,25 +56,6 @@ orderRouter.put('/:id/pay', isAuth, (async (req, res) => {
   }
  })
 );
-
-userRouter.put('/profile', isAuth, (async (req, res) => {
-  const user = await User.findById(req.user._id);
-  if (user) {
-    if (req.body.password) {
-      user.password = bcrypt.hashSync(req.body.password, 8);
-    }
-
-    const updatedUser = await user.save();
-    res.send({
-      _id: updatedUser._id,
-      username: updatedUser.username,
-      email: updatedUser.email,
-      isAdmin: false,
-      token: generateToken(updatedUser),
-    });
-  } else {
-    res.status(404).send({ message: 'User not found' });
-  }}));
 
 
 export default orderRouter;

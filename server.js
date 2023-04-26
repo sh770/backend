@@ -7,7 +7,6 @@ import seedRouter from "./routes/seedRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 
-
 dotenv.config();
 
 mongoose
