@@ -1,4 +1,6 @@
-@REM netkil.cmd & npm start
-
 start cmd /c netkil.cmd
-start cmd /c npm start
+
+cd D:\Full_stack_course\react\backend
+start cmd /c "npm start" 
+cd D:\Full_stack_course\react\frontend
+start cmd /c "npm start"
