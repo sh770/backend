@@ -20,13 +20,21 @@ export const generateToken = (user) => {
         const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
         jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
             if (err) {
-                res.status(401).send({ message: 'Invalid Token' });
+                res.status(401).send({ message: 'טוקן פג תוקף' });
             } else {
                 req.user = decode;
                 next();
             }
         });
     } else {
-        res.status(401).send({ message: 'No Token' });
+        res.status(401).send({ message: 'אין טוקן' });
+      }
+  };
+
+  export const isAdmin = (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+        next();
+    } else {
+        res.status(401).send({ message: 'פג תוקף טוקן מנהל' });
       }
   };
