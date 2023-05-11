@@ -4,10 +4,14 @@ import { isAdmin, isAuth } from "../utilis.js";
 
 const productRouter = express.Router();
 
+const PAGE_SIZE = 4;
+const PAGE_SIZE_ADMIN = 20;
+
 productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
     const { query } = req;
     const page = query.page || 1;
-    const pageSize = query.pageSize || PAGE_SIZE;
+    const pageSize = query.pageSize || PAGE_SIZE_ADMIN;
+
 console.log(777);
     const products = await Product.find()
         .skip(pageSize * (page - 1))
@@ -27,7 +31,6 @@ productRouter.get('/', async (req, res) => {
     res.send(products);
 })
 
-const PAGE_SIZE = 3;
 productRouter.get('/search', async (req, res) => {
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
