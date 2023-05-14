@@ -12,7 +12,7 @@ productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE_ADMIN;
 
-console.log(777);
+    console.log(777);
     const products = await Product.find()
         .skip(pageSize * (page - 1))
         .limit(pageSize);
@@ -23,13 +23,54 @@ console.log(777);
         page,
         pages: Math.ceil(countProducts / pageSize),
     });
-     }
-  );
+}
+);
 
 productRouter.get('/', async (req, res) => {
     const products = await Product.find();
     res.send(products);
 })
+
+productRouter.post('/', isAuth, isAdmin, async (req, res) => {
+    const newProduct = new Product({
+        name: 'שם' + Date.now(),
+        slug: 'slug' + Date.now(),
+        image: '/images/p1.jpg',
+        price: 0,
+        category: 'קטגוריה',
+        brand: 'מותג',
+        countInStock: 0,
+        rating: 0,
+        numReviews: 0,
+        description: 'תיאור',
+    });
+
+    const product = await newProduct.save();
+    res.send({ message: 'מוצר נוצר', product });
+}
+);
+
+productRouter.put('/product/:id', isAuth, isAdmin, async (req, res) => {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (product) {
+        product.name = req.body.name;
+        product.slug = req.body.slug;
+        product.price = req.body.price;
+        product.image = req.body.image;
+        // product.images = req.body.images;
+        product.category = req.body.category;
+        product.brand = req.body.brand;
+        product.countInStock = req.body.countInStock;
+        product.description = req.body.description;
+        await product.save();
+        res.send({ message: 'מוצר עודכן' });
+    } else {
+        res.status(404).send({ message: 'מוצר לא נמצא' });
+    }
+}
+);
+
 
 productRouter.get('/search', async (req, res) => {
     const { query } = req;
@@ -117,7 +158,7 @@ productRouter.get('/:slug', async (req, res) => {
     if (product) {
         res.send(product);
     } else {
-        res.status(404).send({ message: 'המוצר לא נמצא'});
+        res.status(404).send({ message: 'המוצר לא נמצא' });
     }
 });
 
@@ -126,7 +167,7 @@ productRouter.get('/product/:id', async (req, res) => {
     if (product) {
         res.send(product);
     } else {
-        res.status(404).send({ message: 'המוצר לא נמצא'});
+        res.status(404).send({ message: 'המוצר לא נמצא' });
     }
 });
 
