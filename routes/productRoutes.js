@@ -11,8 +11,6 @@ productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
     const { query } = req;
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE_ADMIN;
-
-    console.log(777);
     const products = await Product.find()
         .skip(pageSize * (page - 1))
         .limit(pageSize);
@@ -30,6 +28,9 @@ productRouter.get('/', async (req, res) => {
     const products = await Product.find();
     res.send(products);
 })
+
+
+
 
 productRouter.post('/', isAuth, isAdmin, async (req, res) => {
     const newProduct = new Product({
@@ -70,6 +71,9 @@ productRouter.put('/product/:id', isAuth, isAdmin, async (req, res) => {
     }
 }
 );
+
+
+
 
 
 productRouter.get('/search', async (req, res) => {
@@ -171,6 +175,16 @@ productRouter.get('/product/:id', async (req, res) => {
     }
 });
 
+productRouter.delete('/product/:id', isAuth, isAdmin, async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+        await product.deleteOne();
+        res.send({ message: "המוצר נמחק" });
+    } else {
+        res.status(404).send({ message: "המוצר לא נמצא" });
+    }
+}
+);
 
 
 

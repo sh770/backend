@@ -20,8 +20,41 @@ userRouter.post('/signin', (async (req, res) => {
       return;
     }
   }
-  res.status(401).send({ message: 'Invalid email or password' });
-})); 
+  res.status(401).send({ message: 'דוא"ל או סיסמה שגויים' });
+}));
+
+userRouter.post('/reset', (async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    res.send(user.email)
+  }
+  else {
+    res.status(404).send({ message: 'דואל לא קיים' });
+  }
+}))
+
+
+
+userRouter.put('/reset', (async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 8);
+      console.log(user.password)
+    }
+
+    const updatedUser = await user.save();
+    res.send({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: false,
+      token: generateToken(updatedUser),
+    });
+  } else {
+    res.status(404).send({ message:  'משתמש לא קיים' });
+  }
+}));
 
 userRouter.post("/signup", async (req, res) => {
   const userExist = await User.findOne({
@@ -30,7 +63,7 @@ userRouter.post("/signup", async (req, res) => {
   if (userExist) {
     return res
       .status(401)
-      .json({ message: `username or email already exists` });
+      .json({ message: `שם משתמש או המייל כבר קיימים במערכת ` });
   } else {
     const newUser = new User({
       firstName: req.body.firstName,
@@ -68,7 +101,8 @@ userRouter.put('/profile', isAuth, (async (req, res) => {
       token: generateToken(updatedUser),
     });
   } else {
-    res.status(404).send({ message: 'User not found' });
-  }}));
+    res.status(404).send({ message: 'משתמש לא נמצא' });
+  }
+}));
 
 export default userRouter;
