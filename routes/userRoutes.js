@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
-import { isAuth, generateToken } from "../utilis.js";
+import { isAuth, generateToken, isAdmin } from "../utilis.js";
 
 
 const userRouter = express.Router();
@@ -104,5 +104,12 @@ userRouter.put('/profile', isAuth, (async (req, res) => {
     res.status(404).send({ message: 'משתמש לא נמצא' });
   }
 }));
+
+userRouter.get('/', isAuth, isAdmin, async (req, res) => {
+  const users = await User.find({});
+  res.send(users);
+           }
+     );
+
 
 export default userRouter;

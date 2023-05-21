@@ -1,8 +1,21 @@
 import express from "express";
 import Order from "../models/orderModel.js";
 import { isAdmin, isAuth } from "../utilis.js";
+import User from '../models/userModel.js';
+
 
 const orderRouter = express.Router();
+
+orderRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+      await order.deleteOne();
+      res.send({ message: 'Order Deleted' });
+  } else {
+      res.status(404).send({ message: 'Order Not Found' });
+  }
+ }
+);
 
 orderRouter.get('/', isAuth, isAdmin, async (req, res) => {
   const orders = await Order.find().populate('user', 'name');
@@ -63,6 +76,25 @@ orderRouter.put('/:id/pay', isAuth, (async (req, res) => {
   }
  })
 );
+
+orderRouter.put('/:id/deliver', isAuth, async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+      await order.save();
+
+      const user = await User.findById(order.user);
+      res.send({ message: 'Order Delivered', data: user });
+  } else {
+      res.status(404).send({ message: 'Order Not Found' });
+  }
+}
+);
+
+
+
+
 
 
 export default orderRouter;

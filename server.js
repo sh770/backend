@@ -44,5 +44,7 @@ app.use((err, req, res, next)=>{
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
+    const currentTime = new Date().toLocaleTimeString();
+    console.log(`The server started running at: ${currentTime}`);
     console.log(`server running on http://localhost:${port}`);
 });
