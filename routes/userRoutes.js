@@ -52,7 +52,7 @@ userRouter.put('/reset', (async (req, res) => {
       token: generateToken(updatedUser),
     });
   } else {
-    res.status(404).send({ message:  'משתמש לא קיים' });
+    res.status(404).send({ message: 'משתמש לא קיים' });
   }
 }));
 
@@ -108,8 +108,50 @@ userRouter.put('/profile', isAuth, (async (req, res) => {
 userRouter.get('/', isAuth, isAdmin, async (req, res) => {
   const users = await User.find({});
   res.send(users);
-           }
+}
+);
+
+userRouter.get('/:id', isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    res.send(user);
+  } else {
+    res.status(404).send({ message: "משתמש לא נמצא" });
+  }
+}
+);
+
+userRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin);
+    const updatedUser = await user.save();
+    res.send({ message: 'משתמש עודכן', user: updatedUser });
+  } else {
+    res.status(404).send({ message: "משתמש לא נמצא" });
+  }
+}
+);
+
+userRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    if (user.email === 'yzqwcib@hi32.in' || user.isAdmin) {
+      res.status(400).send({ message: "לא יכול למחוק משתמש מנהל פעיל" });
+      return;
+       }
+    await user.deleteOne();
+    res.send({ message: "משתמש נמחק" });
+  } else {
+    res.status(404).send({ message: "משתמש לא נמצא" });
+       }
+      }
      );
+
+
 
 
 export default userRouter;
