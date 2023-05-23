@@ -124,6 +124,7 @@ userRouter.get('/:id', isAuth, isAdmin, async (req, res) => {
 userRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
+    user.username = req.body.username || user.username;
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
     user.email = req.body.email || user.email;
@@ -139,17 +140,20 @@ userRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
 userRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
-    if (user.email === 'yzqwcib@hi32.in' || user.isAdmin) {
-      res.status(400).send({ message: "לא יכול למחוק משתמש מנהל פעיל" });
+
+    if (user.email === "sh770h@gmail.com" || user.isAdmin) {
+      // if (user.email === "sh770h@gmail.com" ) {
+      // if ( user.isAdmin) {
+      res.status(400).send({ message: "לא יכול למחוק מנהל" });
       return;
-       }
+    }
     await user.deleteOne();
     res.send({ message: "משתמש נמחק" });
   } else {
     res.status(404).send({ message: "משתמש לא נמצא" });
-       }
-      }
-     );
+  }
+}
+);
 
 
 
