@@ -21,6 +21,7 @@ export const generateToken = (user) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
             if (err) {
                 res.status(401).send({ message: 'טוקן פג תוקף' });
+                // res.redirect('/signin');
             } else {
                 req.user = decode;
                 next();
